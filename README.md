@@ -8,7 +8,12 @@
 - инcтрукция для подключения SFML к Dev c++ здесь https://www.youtube.com/watch?v=jNAR-sjivf0
 - !во время установки не ставьте русский язык - ссылка на Dev c++ GCC 4.9.2 TDM (SJLJ) - 64-bit https://sourceforge.net/projects/orwelldevcpp/
 - ссылка на SFML  https://www.sfml-dev.org/download/sfml/2.4.2/
+
+
+Дополнительные инструкции для компоновщика:
+Add the following commands when calling the linker
 ```
+-lsfml-graphics -lsfml-window -lsfml-system
 ```
 - интересная ссылка https://www.youtube.com/watch?v=yHrrNcDqzk8&t=2s
 
