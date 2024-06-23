@@ -33,6 +33,16 @@ int board[8][8] =
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1,-1,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
+ 
+ int board_marker[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
 
 int turnAlbDreapta = 0, turnAlbStanga = 0, regeAlb = 0;
 int turnNegruDreapta = 0, turnNegruStanga = 0, regeNegru = 0;
@@ -73,6 +83,17 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 	}
 	return 0;
 }
+int MarkerPionA(int ox, int oy)
+
+{	
+	board_marker[ox-1][oy] = !board[ox-1][oy];
+	if (ox == 6)// вначале игры на B
+	{
+		board_marker[ox-2][oy] = !board[ox-1][oy];
+	}
+	return 0;
+}
+	
 
 int PionN(int ox, int oy, int nx, int ny)
 {
@@ -1550,10 +1571,23 @@ void pozRegeNegru()
 	}
 }
 
+void clearmarker()
+{
+	for (int i = 0; i < LUNGIME; i++)
+	{
+		for (int j = 0; j < LUNGIME; j++)
+		{
+			board_marker[i][j] = 0;
+		}
+	}
+}
+
+
 int main()
 {
 	RenderWindow window(VideoMode(800, 800), "Chess made by Silvian Achim");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
+	Texture tm1;
 
 	t1.loadFromFile("images/board.png");
 	t2.loadFromFile("images/PionNegru.png");
@@ -1570,7 +1604,7 @@ int main()
 	t13.loadFromFile("images/RegeAlb.png");
 	t14.loadFromFile("images/TransformareAlb.png");
 	t15.loadFromFile("images/TransformareNegru.png");
-
+	tm1.loadFromFile("images/pointAlb.png");
 	Sprite tabla(t1); //поле
 	Sprite PionNegru(t2);//черная пешка
 	Sprite PionAlb(t3);//белая пешка
@@ -1587,6 +1621,8 @@ int main()
 	Sprite Mutare;// отображение фигуры во время переноса с ячейки на ячейки
 	Sprite TransformareALB(t14);
 	Sprite TransformareNEGRU(t15);
+	
+	Sprite Marker_green(tm1);// зеленый маркер
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
@@ -1612,7 +1648,7 @@ int main()
 					//std::cout << "pos_x=" << pos.x << " pos_y=" << pos.y << "\n";
 					//std::cout << "board[y][x]=" << board[y][x] << "\n";
 					//std::cout << "\n";
-					if (transformareAlb == 1)// ходят белые
+					if (transformareAlb == 1)// белая пешка готова к превращению
 					{
 						if (pos.y >= transformA.y * size && pos.y <= (transformA.y + 1) * size && pos.x >= transformA.x * size && pos.x <= (transformA.x + 1) * size)
 						{
@@ -1650,7 +1686,7 @@ int main()
 							}
 						}
 					}
-					if (transformareNegru == 1)// ходят черные
+					if (transformareNegru == 1)// черная пешка готова к превращению
 					{
 						if (pos.y >= transformN.y * size && pos.y <= (transformN.y + 1) * size && pos.x >= transformN.x * size && pos.x <= (transformN.x + 1) * size)
 						{
@@ -1703,6 +1739,8 @@ int main()
 							numarPiesaMutata = PionALB;
 							Mutare = PionAlb;
 							board[y][x] = 0;
+							MarkerPionA(y,x);
+							
 						}
 						if (board[y][x] == TurnNEGRU && mutare ==1)
 						{
@@ -1965,11 +2003,12 @@ int main()
 							}
 						}
 					}
-					else if(ok==0)
+					else if(ok==0)//ход не удался
 					{
 						board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 					}
                    move = 0;
+                   clearmarker(); //очищаем маркеры когда возвращаем фигуру на поле
 				}
 			}
 		}
@@ -2060,6 +2099,22 @@ int main()
 						RegeAlb.setPosition(j * size, i * size);
 						window.draw(RegeAlb);
 					}
+				}
+			}
+		}
+		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker[i][j]
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+
+				if (board_marker[i][j] != 0)
+				{
+					if (board[i][j] == 0)
+					{
+						Marker_green.setPosition(j * size, i * size);
+						window.draw(Marker_green);
+					}
+				
 				}
 			}
 		}
