@@ -10,4 +10,5 @@
 - ссылка на SFML  https://www.sfml-dev.org/download/sfml/2.4.2/
 ```
 ```
+- интересная ссылка https://www.youtube.com/watch?v=yHrrNcDqzk8&t=2s
 
