@@ -106,7 +106,7 @@ int PionN(int ox, int oy, int nx, int ny)
 
 int TurnA(int ox, int oy, int nx, int ny)
 {
-	for (int i = ox-1; i >= 0; i--) // spre stanga
+	for (int i = ox-1; i >= 0; i--) // spre stanga налево
 	{
 		if (board[oy][i] >= 0 && (nx == i && ny == oy))
 		{
@@ -117,7 +117,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = oy - 1; i >= 0; i--) // sus
+	for (int i = oy - 1; i >= 0; i--) // sus вверх 
 	{
 		if (board[i][ox] >= 0 && (ny == i && nx == ox))
 		{
@@ -128,7 +128,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = ox + 1; i <= 7; i++) // spre dreapta
+	for (int i = ox + 1; i <= 7; i++) // spre dreapta направо
 	{
 		if (board[oy][i]>=0 && (ny == oy && nx == i))
 		{
@@ -139,7 +139,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = oy + 1; i <= 7; i++) // jos
+	for (int i = oy + 1; i <= 7; i++) // jos вниз [жос]
 	{
 		if (board[i][ox]>=0 && (ny == i && nx == ox))
 		{
