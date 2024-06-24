@@ -92,14 +92,14 @@ int MarkerPionA(int ox, int oy)
 		board_marker[ox-2][oy] = !board[ox-1][oy];
 	}
 	
-	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1])
+	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1] > 0)
 	{
 
 		board_marker[ox-1][oy+1] = 1;
 
 	}
 	
-	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1])
+	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1] > 0)
 	{
 
 		board_marker[ox-1][oy-1] = 1;
