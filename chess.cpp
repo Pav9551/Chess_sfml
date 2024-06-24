@@ -91,10 +91,25 @@ int MarkerPionA(int ox, int oy)
 	{
 		board_marker[ox-2][oy] = !board[ox-1][oy];
 	}
+	
+	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1])
+	{
+
+		board_marker[ox-1][oy+1] = 1;
+
+	}
+	
+	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1])
+	{
+
+		board_marker[ox-1][oy-1] = 1;
+
+	}
+	
+	
 	return 0;
 }
 	
-
 int PionN(int ox, int oy, int nx, int ny)
 {
 	if (oldPoz.y == 1)
@@ -1741,6 +1756,7 @@ int main()
 							board[y][x] = 0;
 							MarkerPionA(y,x);
 							
+							
 						}
 						if (board[y][x] == TurnNEGRU && mutare ==1)
 						{
@@ -2109,15 +2125,17 @@ int main()
 
 				if (board_marker[i][j] != 0)
 				{
-					if (board[i][j] == 0)
-					{
+					//if (board[i][j] == 0)
+					//{
+						//Marker_green.setColor(sf::Color(255, 255, 255, 128));
 						Marker_green.setPosition(j * size, i * size);
 						window.draw(Marker_green);
-					}
+					//}
 				
 				}
 			}
 		}
+		
 		window.display();
 	}
 		return 0;
