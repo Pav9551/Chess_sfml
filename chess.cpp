@@ -87,9 +87,9 @@ int MarkerPionA(int ox, int oy)
 
 {	
 	board_marker[ox-1][oy] = !board[ox-1][oy];
-	if (ox == 6)// вначале игры на B
+	if ((ox == 6) && !board[ox-1][oy])// вначале игры на B
 	{
-		board_marker[ox-2][oy] = !board[ox-1][oy];
+		board_marker[ox-2][oy] = !board[ox-2][oy];
 	}
 	
 	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1] > 0)
@@ -1754,7 +1754,7 @@ int main()
 							numarPiesaMutata = PionALB;
 							Mutare = PionAlb;
 							board[y][x] = 0;
-							MarkerPionA(y,x);
+							MarkerPionA(y,x);// ставим маркер
 							
 							
 						}
