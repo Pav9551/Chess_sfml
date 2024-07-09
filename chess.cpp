@@ -24,7 +24,7 @@ struct poz
 }oldPoz, regeleAlb, regeleNegru, transformA, transformN;
 
 int  size = 100, move = 0, x, y;
-int board[8][8] =
+/*int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
@@ -32,9 +32,27 @@ int board[8][8] =
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1,-1,-1,-1,-1,
+ -2,-3,-4,-5,-6,-4,-3,-2,};*/
+int board[8][8] =
+{ 2, 3, 4, 0, 6, 4, 3, 2,
+  1, 1, 1, 1, 5, 1, 1, 1,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 1, 0, 0,
+  0, 0, 0, 0, -1, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+ -1,-1,-1,-1, 0,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
  
  int board_marker[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
+int board_copy[8][8] =
 { 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
@@ -83,32 +101,7 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 	}
 	return 0;
 }
-int MarkerPionA(int ox, int oy)
 
-{	
-	board_marker[ox-1][oy] = !board[ox-1][oy];
-	if ((ox == 6) && !board[ox-1][oy])// вначале игры на B
-	{
-		board_marker[ox-2][oy] = !board[ox-2][oy];
-	}
-	
-	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1] > 0)
-	{
-
-		board_marker[ox-1][oy+1] = 1;
-
-	}
-	
-	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1] > 0)
-	{
-
-		board_marker[ox-1][oy-1] = 1;
-
-	}
-	
-	
-	return 0;
-}
 	
 int PionN(int ox, int oy, int nx, int ny)
 {
@@ -1158,6 +1151,7 @@ int ReginaNSah(int ox, int oy, int regex, int regey)
 	return 0;
 }
 
+
 int CalNSah(int ox, int oy, int regex, int regey)
 {
 	if (oy - 2 >= 0 && ox - 1 >= 0 && regey == oy - 2 && regex == ox - 1 && board[regey][regex] <= 0)
@@ -1394,7 +1388,7 @@ int RegeN(int ox, int oy, int nx, int ny)
 
 int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 {
-	int ok = 0;// переходим в состояние 0
+	int ok = 0;// локальная переменная
 	for (int i = 0; i < LUNGIME; i++)
 	{
 		for (int j = 0; j < LUNGIME; j++)
@@ -1428,13 +1422,16 @@ int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 				if (ok == 1)
 				{
 					//	std::cout << "da" << "\n";
+				
 					return 0; // шах белым
 				}
 			}
 		}
 	}
-	return 1; // шах черным
+
+	return 1; // нет шаха белым
 }
+
 
 int RegeA(int ox, int oy, int nx, int ny)
 {
@@ -1584,6 +1581,70 @@ void pozRegeNegru()
 			}
 		}
 	}
+}
+
+int MarkerPionA(int ox, int oy)
+
+{	
+	board_marker[ox-1][oy] = !board[ox-1][oy];
+	if ((ox == 6) && !board[ox-1][oy])// вначале игры на B
+	{
+		board_marker[ox-2][oy] = !board[ox-2][oy];
+	}
+	
+	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1] > 0)
+	{
+
+		board_marker[ox-1][oy+1] = 1;
+
+	}
+	
+	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1] > 0)
+	{
+
+		board_marker[ox-1][oy-1] = 1;
+
+	}
+	// запомним состояние поля
+		for (int i = 0; i < LUNGIME; i++)
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				board_copy[i][j] = board[i][j];
+			}
+			
+		}
+	
+	int ok = 0;
+	pozRegeAlb();
+	for (int i = 0; i < LUNGIME; i++)
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				if (board_marker[i][j]) {
+										
+					board[i][j] = PionALB;
+					ok =  RegeAlbSahCheck(regeleAlb.x, regeleAlb.y);
+							
+					if (!ok) {board_marker[i][j] = 0;}
+						
+					}
+					
+					// возвращает первоначальное состояние поля
+					for (int i = 0; i < LUNGIME; i++)
+						{
+							for (int j = 0; j < LUNGIME; j++)
+							{
+								board[i][j] = board_copy[i][j];
+							}
+							
+						}			
+				
+			}
+		}
+	
+	
+	return 0;
 }
 
 void clearmarker()
@@ -1754,9 +1815,11 @@ int main()
 							numarPiesaMutata = PionALB;
 							Mutare = PionAlb;
 							board[y][x] = 0;
-							MarkerPionA(y,x);// ставим маркер
 							
 							
+							MarkerPionA(y,x);
+							// ставим маркер
+										
 						}
 						if (board[y][x] == TurnNEGRU && mutare ==1)
 						{
@@ -1940,6 +2003,7 @@ int main()
 								{
 									board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 									board[y][x] = nr;
+									
 								}
 								else
 								{
@@ -2133,6 +2197,8 @@ int main()
 					//}
 				
 				}
+				
+				
 			}
 		}
 		
