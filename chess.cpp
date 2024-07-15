@@ -21,7 +21,7 @@ using namespace sf;
 struct poz
 {
 	int x, y;
-}oldPoz, regeleAlb, regeleNegru, transformA, transformN;
+}oldPoz, regeleAlb, regeleNegru, transformA, transformN, hyperjampPionNegru;
 
 int  size = 100, move = 0, x, y;
 /*int board[8][8] =
@@ -34,11 +34,11 @@ int  size = 100, move = 0, x, y;
  -1,-1,-1,-1,-1,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};*/
 int board[8][8] =
-{ 2, 3, 4, 0, 6, 4, 3, 2,
-  1, 1, 1, 1, 5, 1, 1, 1,
+{ 2, 3, 4, 5, 6, 4, 3, 2,
+  1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 1, 0, 0,
   0, 0, 0, 0, -1, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1, 0,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
@@ -53,6 +53,15 @@ int board[8][8] =
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,};
 int board_copy[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
+ int board_marker_or[8][8] =
 { 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
@@ -104,11 +113,19 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 
 	
 int PionN(int ox, int oy, int nx, int ny)
+
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	if (oldPoz.y == 1)
 	{
 		if ((ny == oy + 1 && nx == ox && board[oy+1][ox]==0) || (ny == oy + 2 && nx == ox && board[oy + 1][ox] == 0 && board[oy + 2][ox] == 0))
 		{
+			if (ny == oy + 2 && nx == ox && board[oy + 1][ox] == 0 && board[oy + 2][ox] == 0)
+			{	
+			hyperjampPionNegru.x = nx;
+			hyperjampPionNegru.y = ny;
+			}
 			return 1;
 		}
 	}
@@ -130,6 +147,8 @@ int PionN(int ox, int oy, int nx, int ny)
 			return 1;
 		}
 	}
+	
+	
 	return 0;
 }
 
@@ -179,6 +198,9 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
+	
+	
+	
 	return 0;
 }
 
@@ -1583,34 +1605,46 @@ void pozRegeNegru()
 	}
 }
 
+
 int MarkerPionA(int ox, int oy)
 
 {	
-	board_marker[ox-1][oy] = !board[ox-1][oy];
-	if ((ox == 6) && !board[ox-1][oy])// вначале игры на B
+	board_marker[oy-1][ox] = !board[oy-1][ox];
+	if ((oy == 6) && !board[oy-1][ox])// вначале игры на B
 	{
-		board_marker[ox-2][oy] = !board[ox-2][oy];
+		board_marker[oy-2][ox] = !board[oy-2][ox];
 	}
 	
-	if (oy >= 0 && oy <= 6 && board[ox-1][oy+1] > 0)
+	if (ox >= 0 && ox <= 6 && board[oy-1][ox+1] > 0)
 	{
 
-		board_marker[ox-1][oy+1] = 1;
+		board_marker[oy-1][ox+1] = 1;
 
 	}
 	
-	if (oy >= 1 && oy <= 7 && board[ox-1][oy-1] > 0)
+	if (ox >= 1 && ox <= 7 && board[oy-1][ox-1] > 0)
 	{
 
-		board_marker[ox-1][oy-1] = 1;
+		board_marker[oy-1][ox-1] = 1;
 
 	}
+	
+		/*if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1))
+		{
+			board_marker[hyperjampPionNegru.x][hyperjampPionNegru.y] = true;
+		}*/
+		
+		if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1)){
+	
+		  board_marker[hyperjampPionNegru.y-1][hyperjampPionNegru.x] = true;
+		}
+		
 	// запомним состояние поля
 		for (int i = 0; i < LUNGIME; i++)
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
-				board_copy[i][j] = board[i][j];
+				board_copy[j][i] = board[j][i];
 			}
 			
 		}
@@ -1621,12 +1655,12 @@ int MarkerPionA(int ox, int oy)
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
-				if (board_marker[i][j]) {
+				if (board_marker[j][i]) {
 										
-					board[i][j] = PionALB;
+					board[j][i] = PionALB;
 					ok =  RegeAlbSahCheck(regeleAlb.x, regeleAlb.y);
 							
-					if (!ok) {board_marker[i][j] = 0;}
+					if (!ok) {board_marker[j][i] = 0;}
 						
 					}
 					
@@ -1635,7 +1669,7 @@ int MarkerPionA(int ox, int oy)
 						{
 							for (int j = 0; j < LUNGIME; j++)
 							{
-								board[i][j] = board_copy[i][j];
+								board[j][i] = board_copy[j][i];
 							}
 							
 						}			
@@ -1658,12 +1692,23 @@ void clearmarker()
 	}
 }
 
+void clearmarker_or()
+{
+	for (int i = 0; i < LUNGIME; i++)
+	{
+		for (int j = 0; j < LUNGIME; j++)
+		{
+			board_marker_or[i][j] = 0;
+		}
+	}
+}
+
 
 int main()
 {
 	RenderWindow window(VideoMode(800, 800), "Chess made by Silvian Achim");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
-	Texture tm1;
+	Texture tm1, tm2;
 
 	t1.loadFromFile("images/board.png");
 	t2.loadFromFile("images/PionNegru.png");
@@ -1681,6 +1726,7 @@ int main()
 	t14.loadFromFile("images/TransformareAlb.png");
 	t15.loadFromFile("images/TransformareNegru.png");
 	tm1.loadFromFile("images/pointAlb.png");
+	tm2.loadFromFile("images/pointAlb_or.png");
 	Sprite tabla(t1); //поле
 	Sprite PionNegru(t2);//черная пешка
 	Sprite PionAlb(t3);//белая пешка
@@ -1699,6 +1745,7 @@ int main()
 	Sprite TransformareNEGRU(t15);
 	
 	Sprite Marker_green(tm1);// зеленый маркер
+	Sprite Marker_orange(tm2);// оранжевый маркер
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
@@ -1817,7 +1864,8 @@ int main()
 							board[y][x] = 0;
 							
 							
-							MarkerPionA(y,x);
+							MarkerPionA(x,y);
+							//MarkerPionA(y,x);
 							// ставим маркер
 										
 						}
@@ -2186,14 +2234,45 @@ int main()
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
-
+				/*if (hyperjampPionNegru.x != -1)
+				{
+					board_marker[hyperjampPionNegru.x][hyperjampPionNegru.y] = 1;
+				}*/
 				if (board_marker[i][j] != 0)
 				{
 					//if (board[i][j] == 0)
 					//{
 						//Marker_green.setColor(sf::Color(255, 255, 255, 128));
 						Marker_green.setPosition(j * size, i * size);
+						
 						window.draw(Marker_green);
+					//}
+				
+				}
+				
+				
+			}
+		}
+		
+		clearmarker_or();
+				if (hyperjampPionNegru.x != -1)
+				{
+					board_marker_or[hyperjampPionNegru.y][hyperjampPionNegru.x] = 1;
+				}
+		
+		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker_or[i][j]
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				
+				if (board_marker_or[i][j] != 0)
+				{
+					//if (board[i][j] == 0)
+					//{
+						//Marker_green.setColor(sf::Color(255, 255, 255, 128));
+						Marker_orange.setPosition(j * size, i * size);
+						
+						window.draw(Marker_orange);
 					//}
 				
 				}
