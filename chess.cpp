@@ -108,6 +108,16 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 			return 1;
 		}
 	}
+	if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1))
+	{
+		if (ny == oy - 1 && nx == ox - 1)
+		{
+			return 1;
+		}
+		  
+	}
+	
+	
 	return 0;
 }
 
@@ -1948,6 +1958,13 @@ int main()
 					if (numarPiesaMutata == PionALB && move==1)
 					{
 						 ok = PionA(oldPoz.x, oldPoz.y, x, y);
+						 if (ok)
+						 {
+						 	if ((hyperjampPionNegru.y == oldPoz.y) && (hyperjampPionNegru.x == oldPoz.x-1) && (hyperjampPionNegru.x == x))
+							{
+								board[hyperjampPionNegru.y][hyperjampPionNegru.x] = false;
+							}
+						 }
 					}
 					if (numarPiesaMutata == PionNEGRU && move == 1)
 					{
