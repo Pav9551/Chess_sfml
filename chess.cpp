@@ -116,6 +116,14 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 		}
 		  
 	}
+	if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox+1))
+	{
+		if (ny == oy - 1 && nx == ox + 1)
+		{
+			return 1;
+		}
+		  
+	}
 	
 	
 	return 0;
@@ -216,6 +224,8 @@ int TurnA(int ox, int oy, int nx, int ny)
 
 int TurnN(int ox, int oy, int nx, int ny)
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	for (int i = ox - 1; i >= 0; i--) // spre stanga
 	{
 		if (board[oy][i] <= 0 && (nx == i && ny == oy))
@@ -322,6 +332,8 @@ int NebunA(int ox, int oy, int nx, int ny)
 
 int NebunN(int ox, int oy, int nx, int ny)
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	int j = ox - 1;
 	for (int i = oy - 1; i >= 0; i--) // spre stanga sus
 	{
@@ -479,7 +491,9 @@ int ReginaA(int ox, int oy, int nx, int ny)
 }
 
 int ReginaN(int ox, int oy, int nx, int ny)
-{
+{	
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	for (int i = ox - 1; i >= 0; i--) // spre stanga
 	{
 		if (board[oy][i] <= 0 && (nx == i && ny == oy))
@@ -618,6 +632,8 @@ int CalA(int ox, int oy, int nx, int ny)
 
 int CalN(int ox, int oy, int nx, int ny)
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	if (oy - 2 >= 0 && ox - 1 >= 0 && ny == oy - 2 && nx == ox - 1 && board[ny][nx] <= 0)
 	{
 		return 1; // stanga sus
@@ -1305,6 +1321,8 @@ int RegeNegruSahCheck(int posRegex, int posRegey)// проверка на шах черным
 
 int RegeN(int ox, int oy, int nx, int ny)
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	if (ox - 1 >= 0 && oy - 1 >= 0 && ny == oy - 1 && nx == ox - 1 && board[ny][nx] <= 0)
 	{
 		int ok = RegeNegruSahCheck(ox - 1, oy - 1);
@@ -1644,7 +1662,7 @@ int MarkerPionA(int ox, int oy)
 			board_marker[hyperjampPionNegru.x][hyperjampPionNegru.y] = true;
 		}*/
 		
-		if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1)){
+		if ((hyperjampPionNegru.y == oy) && ((hyperjampPionNegru.x == ox-1) || (hyperjampPionNegru.x == ox+1))){
 	
 		  board_marker[hyperjampPionNegru.y-1][hyperjampPionNegru.x] = true;
 		}
@@ -1960,7 +1978,7 @@ int main()
 						 ok = PionA(oldPoz.x, oldPoz.y, x, y);
 						 if (ok)
 						 {
-						 	if ((hyperjampPionNegru.y == oldPoz.y) && (hyperjampPionNegru.x == oldPoz.x-1) && (hyperjampPionNegru.x == x))
+						 	if ((hyperjampPionNegru.y == oldPoz.y) && ((hyperjampPionNegru.x == oldPoz.x-1) || (hyperjampPionNegru.x == oldPoz.x+1)) && (hyperjampPionNegru.x == x))
 							{
 								board[hyperjampPionNegru.y][hyperjampPionNegru.x] = false;
 							}
@@ -2152,6 +2170,7 @@ int main()
 					{
 						board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 					}
+					
                    move = 0;
                    clearmarker(); //очищаем маркеры когда возвращаем фигуру на поле
 				}
