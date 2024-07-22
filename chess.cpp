@@ -37,8 +37,8 @@ int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, -1, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
+  0, -2, 0, 1, 0, 0, -1, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1, 0,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
@@ -1709,6 +1709,93 @@ int MarkerPionA(int ox, int oy)
 	return 0;
 }
 
+int MarkerTurnA(int ox, int oy)
+
+{	
+	for (int i = ox-1; i >= 0; i--) // spre stanga налево
+	{
+		if (board[oy][i] == 0)
+		{
+			board_marker[oy][i] = true;
+		}
+		else if (board[oy][i] > 0)
+		{
+			board_marker[oy][i] = true;
+			break;
+		}
+		
+		else break;
+	}
+	
+	for (int i = oy - 1; i >= 0; i--) // sus вверх 
+	{
+		if (board[i][ox] == 0)
+		{
+			board_marker[i][ox] = true;
+		}
+		else if (board[i][ox] > 0)
+		{
+			board_marker[i][ox] = true;
+			break;
+		}
+		
+		else break;
+	}
+	for (int i = ox + 1; i <= 7; i++) // spre dreapta направо
+	{
+		if (board[oy][i] == 0)
+		{
+			board_marker[oy][i] = true;
+		}
+		else if (board[oy][i] > 0)
+		{
+			board_marker[oy][i] = true;
+			break;
+		}
+		
+		else break;
+	}
+	for (int i = oy + 1; i <= 7; i++) // jos вниз [жос]
+	{
+		if (board[i][ox] == 0)
+		{
+			board_marker[i][ox] = true;
+		}
+		else if (board[i][ox] > 0)
+		{
+			board_marker[i][ox] = true;
+			break;
+		}
+		
+		else break;
+	}
+	
+	
+	
+	/*board_marker[oy-1][ox] = !board[oy-1][ox];
+	if ((oy == 6) && !board[oy-1][ox])// вначале игры на B
+	{
+		board_marker[oy-2][ox] = !board[oy-2][ox];
+	}
+	
+	if (ox >= 0 && ox <= 6 && board[oy-1][ox+1] > 0)
+	{
+
+		board_marker[oy-1][ox+1] = 1;
+
+	}
+	
+	if (ox >= 1 && ox <= 7 && board[oy-1][ox-1] > 0)
+	{
+
+		board_marker[oy-1][ox-1] = 1;
+
+	}*/
+
+	
+	return 0;
+}
+
 void clearmarker()
 {
 	for (int i = 0; i < LUNGIME; i++)
@@ -1909,6 +1996,7 @@ int main()
 							numarPiesaMutata = TurnALB;
 							Mutare = TurnAlb;
 							board[y][x] = 0;
+							MarkerTurnA(x,y);
 
 						}
 						if (board[y][x] == CalALB && mutare ==0)
