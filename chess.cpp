@@ -1770,29 +1770,6 @@ int MarkerTurnA(int ox, int oy)
 		else break;
 	}
 	
-	
-	
-	/*board_marker[oy-1][ox] = !board[oy-1][ox];
-	if ((oy == 6) && !board[oy-1][ox])// вначале игры на B
-	{
-		board_marker[oy-2][ox] = !board[oy-2][ox];
-	}
-	
-	if (ox >= 0 && ox <= 6 && board[oy-1][ox+1] > 0)
-	{
-
-		board_marker[oy-1][ox+1] = 1;
-
-	}
-	
-	if (ox >= 1 && ox <= 7 && board[oy-1][ox-1] > 0)
-	{
-
-		board_marker[oy-1][ox-1] = 1;
-
-	}*/
-
-	
 	return 0;
 }
 
