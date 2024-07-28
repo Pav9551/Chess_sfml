@@ -37,10 +37,10 @@ int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, -4, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
-  0, -2, 0, 1, 0, 0, -1, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
- -1,-1,-1,-1, 0,-1,-1,-1,
+ -1,-1,-1,-1, -1,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
  
  int board_marker[8][8] =
@@ -81,9 +81,9 @@ int sahAlb = 0, sahNegru = 0;
 int transformareAlb = 0, transformareNegru = 0;
 
 
-int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
+int PionA(int ox, int oy, int nx, int ny)// ??????? ???????? ????? ?????
 {
-	if (oldPoz.y == 6)// вначале игры на B
+	if (oldPoz.y == 6)// ??????? ???? ?? B
 	{
 		if ((ny == oy - 1 && nx == ox && board[oy-1][ox]==0)||(ny==oy-2 && nx==ox && board[oy - 1][ox] == 0 && board[oy - 2][ox]==0))
 		{
@@ -172,7 +172,7 @@ int PionN(int ox, int oy, int nx, int ny)
 
 int TurnA(int ox, int oy, int nx, int ny)
 {
-	for (int i = ox-1; i >= 0; i--) // spre stanga налево
+	for (int i = ox-1; i >= 0; i--) // spre stanga ??????
 	{
 		if (board[oy][i] >= 0 && (nx == i && ny == oy))
 		{
@@ -183,7 +183,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = oy - 1; i >= 0; i--) // sus вверх 
+	for (int i = oy - 1; i >= 0; i--) // sus ????? 
 	{
 		if (board[i][ox] >= 0 && (ny == i && nx == ox))
 		{
@@ -194,7 +194,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = ox + 1; i <= 7; i++) // spre dreapta направо
+	for (int i = ox + 1; i <= 7; i++) // spre dreapta ???????
 	{
 		if (board[oy][i]>=0 && (ny == oy && nx == i))
 		{
@@ -205,7 +205,7 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
-	for (int i = oy + 1; i <= 7; i++) // jos вниз [жос]
+	for (int i = oy + 1; i <= 7; i++) // jos ???? [???]
 	{
 		if (board[i][ox]>=0 && (ny == i && nx == ox))
 		{
@@ -1276,9 +1276,9 @@ int RegeNSah(int ox, int oy, int regex, int regey)
 
 
 
-int RegeNegruSahCheck(int posRegex, int posRegey)// проверка на шах черным
+int RegeNegruSahCheck(int posRegex, int posRegey)// ???????? ?? ??? ??????
 {
-	int ok = 0;// переходим в состояние 0
+	int ok = 0;// ????????? ? ????????? 0
 	for (int i = 0; i < LUNGIME; i++)
 	{
 		for (int j = 0; j < LUNGIME; j++)
@@ -1436,9 +1436,9 @@ int RegeN(int ox, int oy, int nx, int ny)
 }
 
 
-int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
+int RegeAlbSahCheck(int posRegex, int posRegey)// ???????? ?? ??? ?????
 {
-	int ok = 0;// локальная переменная
+	int ok = 0;// ????????? ??????????
 	for (int i = 0; i < LUNGIME; i++)
 	{
 		for (int j = 0; j < LUNGIME; j++)
@@ -1447,7 +1447,7 @@ int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 			{
 				if (board[i][j] == PionNEGRU)
 				{
-					ok = PionNSah(j, i, posRegex, posRegey);// угроза пешки
+					ok = PionNSah(j, i, posRegex, posRegey);// ?????? ?????
 				}
 				if (board[i][j] == TurnNEGRU)
 				{
@@ -1473,13 +1473,13 @@ int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 				{
 					//	std::cout << "da" << "\n";
 				
-					return 0; // шах белым
+					return 0; // ??? ?????
 				}
 			}
 		}
 	}
 
-	return 1; // нет шаха белым
+	return 1; // ??? ???? ?????
 }
 
 
@@ -1638,7 +1638,7 @@ int MarkerPionA(int ox, int oy)
 
 {	
 	board_marker[oy-1][ox] = !board[oy-1][ox];
-	if ((oy == 6) && !board[oy-1][ox])// вначале игры на B
+	if ((oy == 6) && !board[oy-1][ox])// ??????? ???? ?? B
 	{
 		board_marker[oy-2][ox] = !board[oy-2][ox];
 	}
@@ -1667,7 +1667,7 @@ int MarkerPionA(int ox, int oy)
 		  board_marker[hyperjampPionNegru.y-1][hyperjampPionNegru.x] = true;
 		}
 		
-	// запомним состояние поля
+	// ???????? ????????? ????
 		for (int i = 0; i < LUNGIME; i++)
 		{
 			for (int j = 0; j < LUNGIME; j++)
@@ -1692,7 +1692,7 @@ int MarkerPionA(int ox, int oy)
 						
 					}
 					
-					// возвращает первоначальное состояние поля
+					// ?????????? ?????????????? ????????? ????
 					for (int i = 0; i < LUNGIME; i++)
 						{
 							for (int j = 0; j < LUNGIME; j++)
@@ -1712,7 +1712,7 @@ int MarkerPionA(int ox, int oy)
 int MarkerTurnA(int ox, int oy)
 
 {	
-	for (int i = ox-1; i >= 0; i--) // spre stanga налево
+	for (int i = ox-1; i >= 0; i--) // spre stanga ??????
 	{
 		if (board[oy][i] == 0)
 		{
@@ -1727,7 +1727,7 @@ int MarkerTurnA(int ox, int oy)
 		else break;
 	}
 	
-	for (int i = oy - 1; i >= 0; i--) // sus вверх 
+	for (int i = oy - 1; i >= 0; i--) // sus ????? 
 	{
 		if (board[i][ox] == 0)
 		{
@@ -1741,7 +1741,7 @@ int MarkerTurnA(int ox, int oy)
 		
 		else break;
 	}
-	for (int i = ox + 1; i <= 7; i++) // spre dreapta направо
+	for (int i = ox + 1; i <= 7; i++) // spre dreapta ???????
 	{
 		if (board[oy][i] == 0)
 		{
@@ -1755,7 +1755,7 @@ int MarkerTurnA(int ox, int oy)
 		
 		else break;
 	}
-	for (int i = oy + 1; i <= 7; i++) // jos вниз [жос]
+	for (int i = oy + 1; i <= 7; i++) // jos ???? [???]
 	{
 		if (board[i][ox] == 0)
 		{
@@ -1771,6 +1771,83 @@ int MarkerTurnA(int ox, int oy)
 	}
 	
 	return 0;
+}
+
+
+int MarkerNebunA(int ox, int oy)
+{
+	int j = ox;
+	for (int i = oy - 1; i >= 0; i--) // ?????? ?????
+	{
+		j--;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;
+		
+	}
+	j = ox;
+	for (int i = oy - 1; i >= 0; i--) // ??????? ?????
+	{
+		j++;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;
+		
+	}	
+	j = ox;
+	for (int i = oy + 1; i <= 7; i++) // ?????? ????
+	{
+		j--;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;
+		
+	}
+	j = ox;
+	for (int i = oy + 1; i <= 7; i++) // ??????? ????
+	{
+		j++;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;
+		
+	}
 }
 
 void clearmarker()
@@ -1819,25 +1896,25 @@ int main()
 	t15.loadFromFile("images/TransformareNegru.png");
 	tm1.loadFromFile("images/pointAlb.png");
 	tm2.loadFromFile("images/pointAlb_or.png");
-	Sprite tabla(t1); //поле
-	Sprite PionNegru(t2);//черная пешка
-	Sprite PionAlb(t3);//белая пешка
-	Sprite TurnNegru(t4);//черная ладья
-	Sprite TurnAlb(t5);//белая ладья
-	Sprite CalAlb(t6);//черный конь
-	Sprite CalNegru(t7);//белый конь
-	Sprite NebunNegru(t8);//черный офицер
-	Sprite NebunAlb(t9);//белый офицер
-	Sprite ReginaAlb(t10);//черный ферзь
-	Sprite ReginaNegru(t11);//белый ферзь
-	Sprite RegeNegru(t12);//черный кароль
-	Sprite RegeAlb(t13);//белый кароль
-	Sprite Mutare;// отображение фигуры во время переноса с ячейки на ячейки
+	Sprite tabla(t1); //????
+	Sprite PionNegru(t2);//?????? ?????
+	Sprite PionAlb(t3);//????? ?????
+	Sprite TurnNegru(t4);//?????? ?????
+	Sprite TurnAlb(t5);//????? ?????
+	Sprite CalAlb(t6);//?????? ????
+	Sprite CalNegru(t7);//????? ????
+	Sprite NebunNegru(t8);//?????? ??????
+	Sprite NebunAlb(t9);//????? ??????
+	Sprite ReginaAlb(t10);//?????? ?????
+	Sprite ReginaNegru(t11);//????? ?????
+	Sprite RegeNegru(t12);//?????? ??????
+	Sprite RegeAlb(t13);//????? ??????
+	Sprite Mutare;// ??????????? ?????? ?? ????? ???????? ? ?????? ?? ??????
 	Sprite TransformareALB(t14);
 	Sprite TransformareNEGRU(t15);
 	
-	Sprite Marker_green(tm1);// зеленый маркер
-	Sprite Marker_orange(tm2);// оранжевый маркер
+	Sprite Marker_green(tm1);// ??????? ??????
+	Sprite Marker_orange(tm2);// ????????? ??????
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
@@ -1847,7 +1924,7 @@ int main()
 		Vector2i pos = Mouse::getPosition(window);
 		 x = pos.x / size;
 		 y = pos.y / size;
-		Event e;// переменная отвечает за событие
+		Event e;// ?????????? ???????? ?? ???????
 		while (window.pollEvent(e))
 		{
 			if (e.type == Event::Closed)
@@ -1855,15 +1932,15 @@ int main()
 				window.close();
 			}
 			window.clear();
-			if (e.type == Event::MouseButtonPressed)//по событию нажатия на кнопку мыши
+			if (e.type == Event::MouseButtonPressed)//?? ??????? ??????? ?? ?????? ????
 			{
-				if (e.key.code == Mouse::Left)// левая кнопка
+				if (e.key.code == Mouse::Left)// ????? ??????
 				{
 					//std::cout << "x=" << x << " y=" << y << "\n";
 					//std::cout << "pos_x=" << pos.x << " pos_y=" << pos.y << "\n";
 					//std::cout << "board[y][x]=" << board[y][x] << "\n";
 					//std::cout << "\n";
-					if (transformareAlb == 1)// белая пешка готова к превращению
+					if (transformareAlb == 1)// ????? ????? ?????? ? ???????????
 					{
 						if (pos.y >= transformA.y * size && pos.y <= (transformA.y + 1) * size && pos.x >= transformA.x * size && pos.x <= (transformA.x + 1) * size)
 						{
@@ -1901,7 +1978,7 @@ int main()
 							}
 						}
 					}
-					if (transformareNegru == 1)// черная пешка готова к превращению
+					if (transformareNegru == 1)// ?????? ????? ?????? ? ???????????
 					{
 						if (pos.y >= transformN.y * size && pos.y <= (transformN.y + 1) * size && pos.x >= transformN.x * size && pos.x <= (transformN.x + 1) * size)
 						{
@@ -1939,7 +2016,7 @@ int main()
 							}
 						}
 					}
-					if (board[y][x] != 0)// мы тащим фигуру мышкой
+					if (board[y][x] != 0)// ?? ????? ?????? ??????
 					{
 						dx = pos.x - x * 100;
 						dy = pos.y - y * 100;
@@ -1958,7 +2035,7 @@ int main()
 							
 							MarkerPionA(x,y);
 							//MarkerPionA(y,x);
-							// ставим маркер
+							// ?????? ??????
 										
 						}
 						if (board[y][x] == TurnNEGRU && mutare ==1)
@@ -1999,6 +2076,7 @@ int main()
 							numarPiesaMutata = NebunALB;
 							Mutare = NebunAlb;
 							board[y][x] = 0;
+							MarkerNebunA(x,y);
 						}
 						if (board[y][x] == ReginaALB && mutare==0)
 						{
@@ -2033,11 +2111,11 @@ int main()
 					}
 				}
 			}
-			if (e.type == Event::MouseButtonReleased)// когда отпускаем фигуру, то идет проверка правил
+			if (e.type == Event::MouseButtonReleased)// ????? ????????? ??????, ?? ???? ???????? ??????
 			{
 				if (e.key.code == Mouse::Left)
 				{
-					int ok=2;// переходим в состояние 2
+					int ok=2;// ????????? ? ????????? 2
 					if (numarPiesaMutata == PionALB && move==1)
 					{
 						 ok = PionA(oldPoz.x, oldPoz.y, x, y);
@@ -2231,19 +2309,19 @@ int main()
 							}
 						}
 					}
-					else if(ok==0)//ход не удался
+					else if(ok==0)//??? ?? ??????
 					{
 						board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 					}
 					
                    move = 0;
-                   clearmarker(); //очищаем маркеры когда возвращаем фигуру на поле
+                   clearmarker(); //??????? ??????? ????? ?????????? ?????? ?? ????
 				}
 			}
 		}
 		// afisare //
 		window.clear();
-		window.draw(tabla);// рисуем доску
+		window.draw(tabla);// ?????? ?????
 		if (transformareAlb == 1)
 		{
 			TransformareALB.setPosition(transformA.x* size, transformA.y* size);
@@ -2257,9 +2335,9 @@ int main()
 		if (move == 1)
 		{
 			Mutare.setPosition(pos.x-dx, pos.y-dy);
-			window.draw(Mutare);// отрисовываем перемещающуюся фигуру
+			window.draw(Mutare);// ???????????? ?????????????? ??????
 		}
-		for (int i = 0; i < LUNGIME; i++)// расставляем шахматы согласно board[i][j]
+		for (int i = 0; i < LUNGIME; i++)// ??????????? ??????? ???????? board[i][j]
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
@@ -2331,7 +2409,7 @@ int main()
 				}
 			}
 		}
-		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker[i][j]
+		for (int i = 0; i < LUNGIME; i++)// ??????????? ????? ???????? board_marker[i][j]
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
@@ -2361,7 +2439,7 @@ int main()
 					board_marker_or[hyperjampPionNegru.y][hyperjampPionNegru.x] = 1;
 				}
 		
-		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker_or[i][j]
+		for (int i = 0; i < LUNGIME; i++)// ??????????? ????? ???????? board_marker_or[i][j]
 		{
 			for (int j = 0; j < LUNGIME; j++)
 			{
@@ -2386,3 +2464,4 @@ int main()
 	}
 		return 0;
 }
+
