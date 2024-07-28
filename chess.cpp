@@ -37,7 +37,7 @@ int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, -4, 0, 0, 0,
+  0, 0, 0, 0, -5, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1, -1,-1,-1,-1,
@@ -1850,6 +1850,138 @@ int MarkerNebunA(int ox, int oy)
 	}
 }
 
+int MarkerReginaA(int ox, int oy)
+
+{	
+	int j = ox;
+	for (int i = ox-1; i >= 0; i--) // spre stanga ??????
+	{
+		if (board[oy][i] == 0)
+		{
+			board_marker[oy][i] = true;
+		}
+		else if (board[oy][i] > 0)
+		{
+			board_marker[oy][i] = true;
+			break;
+		}
+		
+		else break;
+	}
+	
+	for (int i = oy - 1; i >= 0; i--) // sus ????? 
+	{
+		if (board[i][ox] == 0)
+		{
+			board_marker[i][ox] = true;
+		}
+		else if (board[i][ox] > 0)
+		{
+			board_marker[i][ox] = true;
+			break;
+		}
+		
+		else break;
+	}
+	for (int i = ox + 1; i <= 7; i++) // spre dreapta ???????
+	{
+		if (board[oy][i] == 0)
+		{
+			board_marker[oy][i] = true;
+		}
+		else if (board[oy][i] > 0)
+		{
+			board_marker[oy][i] = true;
+			break;
+		}
+		
+		else break;
+	}
+	for (int i = oy + 1; i <= 7; i++) // jos ???? [???]
+	{
+		if (board[i][ox] == 0)
+		{
+			board_marker[i][ox] = true;
+		}
+		else if (board[i][ox] > 0)
+		{
+			board_marker[i][ox] = true;
+			break;
+		}
+		
+		else break;
+	}
+	
+	for (int i = oy - 1; i >= 0; i--) // ?????? ?????
+	{
+		j--;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;	
+	}
+	j = ox;
+	for (int i = oy - 1; i >= 0; i--) // ??????? ?????
+	{
+		j++;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;	
+	}	
+	j = ox;
+	for (int i = oy + 1; i <= 7; i++) // ?????? ????
+	{
+		j--;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;	
+	}
+	j = ox;
+	for (int i = oy + 1; i <= 7; i++) // ??????? ????
+	{
+		j++;
+		if (j < 0 || j > 7)
+		 {break;}
+		if (board[i][j] == 0)
+		{
+			board_marker[i][j]= true;
+		}
+		else if (board[i][j] > 0)
+		{
+			board_marker[i][j]= true;
+			break;
+		}
+		else break;
+	}
+	return 0;
+}
+
 void clearmarker()
 {
 	for (int i = 0; i < LUNGIME; i++)
@@ -2083,6 +2215,7 @@ int main()
 							numarPiesaMutata = ReginaALB;
 							Mutare = ReginaAlb;
 							board[y][x] = 0;
+							MarkerReginaA(x,y);
 						}
 						if (board[y][x] == ReginaNEGRU && mutare ==1)
 						{
@@ -2464,4 +2597,5 @@ int main()
 	}
 		return 0;
 }
+
 
