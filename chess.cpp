@@ -37,7 +37,7 @@ int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, -5, 0, 0, 0,
+  0, 0, 0, 0, -6, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1, -1,-1,-1,-1,
@@ -1992,6 +1992,79 @@ void clearmarker()
 		}
 	}
 }
+int MarkerCalA(int ox, int oy)
+{
+	if (oy - 2 >= 0 && ox - 1 >= 0 && board[oy - 2][ox - 1] >= 0)
+	{
+		board_marker[oy - 2][ox - 1] = true; // stanga sus
+	}
+	if (oy - 2 >= 0 && ox + 1 <LUNGIME && board[oy - 2 ][ox + 1] >= 0)
+	{
+		board_marker[oy - 2][ox + 1] = true;
+	}
+	if (oy - 1 >= 0 && ox + 2 < LUNGIME && board[oy - 1][ox + 2]>=0)
+	{
+		board_marker[oy - 1][ox + 2] = true;
+	}
+	if (oy + 1 >= 0 && ox + 2 < LUNGIME && board[oy + 1][ox + 2] >= 0)
+	{
+		board_marker[oy + 1][ox + 2] = true;
+	}
+	if (oy+2<LUNGIME && ox+1<LUNGIME && board[oy+2][ox+1]>=0)
+	{
+		board_marker[oy + 2][ox + 1] = true;
+	}
+	if (oy + 2 < LUNGIME && ox - 1 >= 0 && board[oy + 2][ox - 1] >= 0)
+	{
+		board_marker[oy + 2][ox - 1] = true;
+	}
+	if (oy+1<LUNGIME && ox-2>=0 && board[oy+1][ox-2]>=0 )
+	{
+		board_marker[oy + 1][ox - 2] = true;
+	}
+	if (oy - 1 >= 0 && ox - 2 >= 0 && board[oy - 1][ox - 2] >= 0)
+	{
+		board_marker[oy - 1][ox - 2] = true;
+	}
+	return 0;
+}
+
+int MarkerRegeA(int ox, int oy)
+{
+	if (oy - 1 >= 0 && ox - 1 >= 0 && board[oy - 1][ox - 1] >= 0)
+	{
+		board_marker[oy - 1][ox - 1] = true; // stanga sus
+	}
+	if (oy - 1 >= 0 && ox  <LUNGIME && board[oy - 1][ox] >= 0)
+	{
+		board_marker[oy - 1][ox] = true;
+	}
+	if (oy - 1 >= 0 && ox + 1 < LUNGIME && board[oy - 1][ox + 1]>=0)
+	{
+		board_marker[oy - 1][ox + 1] = true;
+	}
+	if (oy >= 0 && ox + 1 < LUNGIME && board[oy + 1][ox + 1] >= 0)
+	{
+		board_marker[oy][ox + 1] = true;
+	}
+	if (oy+1<LUNGIME && ox+1<LUNGIME && board[oy+1][ox+1]>=0)
+	{
+		board_marker[oy + 1][ox + 1] = true;
+	}
+	if (oy + 1 < LUNGIME && ox >= 0 && board[oy + 1][ox - 1] >= 0)
+	{
+		board_marker[oy + 1][ox] = true;
+	}
+	if (oy+1<LUNGIME && ox-1>=0 && board[oy+1][ox-1]>=0 )
+	{
+		board_marker[oy + 1][ox - 1] = true;
+	}
+	if (oy >= 0 && ox - 1 >= 0 && board[oy - 1][ox - 1] >= 0)
+	{
+		board_marker[oy ][ox - 1] = true;
+	}
+	return 0;
+}
 
 void clearmarker_or()
 {
@@ -2190,6 +2263,7 @@ int main()
 							numarPiesaMutata = CalALB;
 							Mutare = CalAlb;
 							board[y][x] = 0;
+							MarkerCalA(x,y);
 						}
 						if (board[y][x] == CalNEGRU && mutare ==1)
 						{
@@ -2234,6 +2308,7 @@ int main()
 							numarPiesaMutata = RegeALB;
 							Mutare = RegeAlb;
 							board[y][x] = 0;
+							MarkerRegeA(x,y);
 						}
 						if (board[y][x] == 0)
 						{
@@ -2597,5 +2672,6 @@ int main()
 	}
 		return 0;
 }
+
 
 
