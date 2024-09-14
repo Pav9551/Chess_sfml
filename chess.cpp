@@ -2080,7 +2080,7 @@ void clearmarker_or()
 
 int main()
 {
-	RenderWindow window(VideoMode(800, 800), "Chess made by Silvian Achim");
+	RenderWindow window(VideoMode(900, 800), "Chess made by Silvian Achim");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
 	Texture tm1, tm2;
 
@@ -2123,7 +2123,29 @@ int main()
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
+	class Button {
+	public:
+	    Button(float x, float y, float width, float height, sf::Color color) {
+	        button.setSize(sf::Vector2f(width, height));
+	        button.setPosition(x, y);
+	        button.setFillColor(color);
+	    }
 
+    void draw(sf::RenderWindow& window) {
+        window.draw(button);
+    }
+
+    bool isMouseOver(sf::RenderWindow& window) {
+        sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+        sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+
+        return button.getGlobalBounds().contains(worldPos);
+    }
+
+private:
+    sf::RectangleShape button;
+};
+	Button myButton(800.f, 000.f, 100.f, 100.f, sf::Color::Green);
 	while (window.isOpen())
 	{
 		Vector2i pos = Mouse::getPosition(window);
@@ -2137,14 +2159,20 @@ int main()
 				window.close();
 			}
 			window.clear();
+			
 			if (e.type == Event::MouseButtonPressed)//?? ??????? ??????? ?? ?????? ????
-			{
+			{   
 				if (e.key.code == Mouse::Left)// ????? ??????
 				{
 					//std::cout << "x=" << x << " y=" << y << "\n";
 					//std::cout << "pos_x=" << pos.x << " pos_y=" << pos.y << "\n";
 					//std::cout << "board[y][x]=" << board[y][x] << "\n";
 					//std::cout << "\n";
+					if (myButton.isMouseOver(window))
+                    {
+                       
+                        printf("Green button Pressed!\n");
+                    }
 					if (transformareAlb == 1)// ????? ????? ?????? ? ???????????
 					{
 						if (pos.y >= transformA.y * size && pos.y <= (transformA.y + 1) * size && pos.x >= transformA.x * size && pos.x <= (transformA.x + 1) * size)
@@ -2221,7 +2249,7 @@ int main()
 							}
 						}
 					}
-					if (board[y][x] != 0)// ?? ????? ?????? ??????
+					if (board[y][x] != 0  &&  x < 8)// ?? ????? ?????? ??????
 					{
 						dx = pos.x - x * 100;
 						dy = pos.y - y * 100;
@@ -2322,7 +2350,7 @@ int main()
 			if (e.type == Event::MouseButtonReleased)// ????? ????????? ??????, ?? ???? ???????? ??????
 			{
 				if (e.key.code == Mouse::Left)
-				{
+				{   
 					int ok=2;// ????????? ? ????????? 2
 					if (numarPiesaMutata == PionALB && move==1)
 					{
@@ -2667,7 +2695,7 @@ int main()
 				
 			}
 		}
-		
+		myButton.draw(window);
 		window.display();
 	}
 		return 0;
