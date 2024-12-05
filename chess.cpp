@@ -21,10 +21,10 @@ using namespace sf;
 struct poz
 {
 	int x, y;
-}oldPoz, regeleAlb, regeleNegru, transformA, transformN;
+}oldPoz, regeleAlb, regeleNegru, transformA, transformN, hyperjampPionNegru;
 
 int  size = 100, move = 0, x, y;
-int board[8][8] =
+/*int board[8][8] =
 { 2, 3, 4, 5, 6, 4, 3, 2,
   1, 1, 1, 1, 1, 1, 1, 1,
   0, 0, 0, 0, 0, 0, 0, 0,
@@ -32,7 +32,44 @@ int board[8][8] =
   0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0,
  -1,-1,-1,-1,-1,-1,-1,-1,
+ -2,-3,-4,-5,-6,-4,-3,-2,};*/
+int board[8][8] =
+{ 2, 3, 4, 5, 6, 4, 3, 2,
+  1, 1, 1, 1, 1, 1, 1, 1,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, -1, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+ -1,-1,-1,-1, 0,-1,-1,-1,
  -2,-3,-4,-5,-6,-4,-3,-2,};
+ 
+ int board_marker[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
+int board_copy[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
+ int board_marker_or[8][8] =
+{ 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0,};
 
 int turnAlbDreapta = 0, turnAlbStanga = 0, regeAlb = 0;
 int turnNegruDreapta = 0, turnNegruStanga = 0, regeNegru = 0;
@@ -71,15 +108,34 @@ int PionA(int ox, int oy, int nx, int ny)// правила движения белой пешки
 			return 1;
 		}
 	}
+	if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1))
+	{
+		if (ny == oy - 1 && nx == ox - 1)
+		{
+			return 1;
+		}
+		  
+	}
+	
+	
 	return 0;
 }
 
+	
 int PionN(int ox, int oy, int nx, int ny)
+
 {
+	hyperjampPionNegru.x = -1;
+	hyperjampPionNegru.y = -1;
 	if (oldPoz.y == 1)
 	{
 		if ((ny == oy + 1 && nx == ox && board[oy+1][ox]==0) || (ny == oy + 2 && nx == ox && board[oy + 1][ox] == 0 && board[oy + 2][ox] == 0))
 		{
+			if (ny == oy + 2 && nx == ox && board[oy + 1][ox] == 0 && board[oy + 2][ox] == 0)
+			{	
+			hyperjampPionNegru.x = nx;
+			hyperjampPionNegru.y = ny;
+			}
 			return 1;
 		}
 	}
@@ -101,6 +157,8 @@ int PionN(int ox, int oy, int nx, int ny)
 			return 1;
 		}
 	}
+	
+	
 	return 0;
 }
 
@@ -150,6 +208,9 @@ int TurnA(int ox, int oy, int nx, int ny)
 			break;
 		}
 	}
+	
+	
+	
 	return 0;
 }
 
@@ -1122,6 +1183,7 @@ int ReginaNSah(int ox, int oy, int regex, int regey)
 	return 0;
 }
 
+
 int CalNSah(int ox, int oy, int regex, int regey)
 {
 	if (oy - 2 >= 0 && ox - 1 >= 0 && regey == oy - 2 && regex == ox - 1 && board[regey][regex] <= 0)
@@ -1358,7 +1420,7 @@ int RegeN(int ox, int oy, int nx, int ny)
 
 int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 {
-	int ok = 0;// переходим в состояние 0
+	int ok = 0;// локальная переменная
 	for (int i = 0; i < LUNGIME; i++)
 	{
 		for (int j = 0; j < LUNGIME; j++)
@@ -1392,13 +1454,16 @@ int RegeAlbSahCheck(int posRegex, int posRegey)// проверка на шах белым
 				if (ok == 1)
 				{
 					//	std::cout << "da" << "\n";
+				
 					return 0; // шах белым
 				}
 			}
 		}
 	}
-	return 1; // шах черным
+
+	return 1; // нет шаха белым
 }
+
 
 int RegeA(int ox, int oy, int nx, int ny)
 {
@@ -1550,10 +1615,110 @@ void pozRegeNegru()
 	}
 }
 
+
+int MarkerPionA(int ox, int oy)
+
+{	
+	board_marker[oy-1][ox] = !board[oy-1][ox];
+	if ((oy == 6) && !board[oy-1][ox])// вначале игры на B
+	{
+		board_marker[oy-2][ox] = !board[oy-2][ox];
+	}
+	
+	if (ox >= 0 && ox <= 6 && board[oy-1][ox+1] > 0)
+	{
+
+		board_marker[oy-1][ox+1] = 1;
+
+	}
+	
+	if (ox >= 1 && ox <= 7 && board[oy-1][ox-1] > 0)
+	{
+
+		board_marker[oy-1][ox-1] = 1;
+
+	}
+	
+		/*if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1))
+		{
+			board_marker[hyperjampPionNegru.x][hyperjampPionNegru.y] = true;
+		}*/
+		
+		if ((hyperjampPionNegru.y == oy) && (hyperjampPionNegru.x == ox-1)){
+	
+		  board_marker[hyperjampPionNegru.y-1][hyperjampPionNegru.x] = true;
+		}
+		
+	// запомним состояние поля
+		for (int i = 0; i < LUNGIME; i++)
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				board_copy[j][i] = board[j][i];
+			}
+			
+		}
+	
+	int ok = 0;
+	pozRegeAlb();
+	for (int i = 0; i < LUNGIME; i++)
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				if (board_marker[j][i]) {
+										
+					board[j][i] = PionALB;
+					ok =  RegeAlbSahCheck(regeleAlb.x, regeleAlb.y);
+							
+					if (!ok) {board_marker[j][i] = 0;}
+						
+					}
+					
+					// возвращает первоначальное состояние поля
+					for (int i = 0; i < LUNGIME; i++)
+						{
+							for (int j = 0; j < LUNGIME; j++)
+							{
+								board[j][i] = board_copy[j][i];
+							}
+							
+						}			
+				
+			}
+		}
+	
+	
+	return 0;
+}
+
+void clearmarker()
+{
+	for (int i = 0; i < LUNGIME; i++)
+	{
+		for (int j = 0; j < LUNGIME; j++)
+		{
+			board_marker[i][j] = 0;
+		}
+	}
+}
+
+void clearmarker_or()
+{
+	for (int i = 0; i < LUNGIME; i++)
+	{
+		for (int j = 0; j < LUNGIME; j++)
+		{
+			board_marker_or[i][j] = 0;
+		}
+	}
+}
+
+
 int main()
 {
 	RenderWindow window(VideoMode(800, 800), "Chess made by Silvian Achim");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
+	Texture tm1, tm2;
 
 	t1.loadFromFile("images/board.png");
 	t2.loadFromFile("images/PionNegru.png");
@@ -1570,7 +1735,8 @@ int main()
 	t13.loadFromFile("images/RegeAlb.png");
 	t14.loadFromFile("images/TransformareAlb.png");
 	t15.loadFromFile("images/TransformareNegru.png");
-
+	tm1.loadFromFile("images/pointAlb.png");
+	tm2.loadFromFile("images/pointAlb_or.png");
 	Sprite tabla(t1); //поле
 	Sprite PionNegru(t2);//черная пешка
 	Sprite PionAlb(t3);//белая пешка
@@ -1587,6 +1753,9 @@ int main()
 	Sprite Mutare;// отображение фигуры во время переноса с ячейки на ячейки
 	Sprite TransformareALB(t14);
 	Sprite TransformareNEGRU(t15);
+	
+	Sprite Marker_green(tm1);// зеленый маркер
+	Sprite Marker_orange(tm2);// оранжевый маркер
 
 	float dx = 0, dy = 0;
 	int numarPiesaMutata = 0;
@@ -1612,7 +1781,7 @@ int main()
 					//std::cout << "pos_x=" << pos.x << " pos_y=" << pos.y << "\n";
 					//std::cout << "board[y][x]=" << board[y][x] << "\n";
 					//std::cout << "\n";
-					if (transformareAlb == 1)// ходят белые
+					if (transformareAlb == 1)// белая пешка готова к превращению
 					{
 						if (pos.y >= transformA.y * size && pos.y <= (transformA.y + 1) * size && pos.x >= transformA.x * size && pos.x <= (transformA.x + 1) * size)
 						{
@@ -1650,7 +1819,7 @@ int main()
 							}
 						}
 					}
-					if (transformareNegru == 1)// ходят черные
+					if (transformareNegru == 1)// черная пешка готова к превращению
 					{
 						if (pos.y >= transformN.y * size && pos.y <= (transformN.y + 1) * size && pos.x >= transformN.x * size && pos.x <= (transformN.x + 1) * size)
 						{
@@ -1703,6 +1872,12 @@ int main()
 							numarPiesaMutata = PionALB;
 							Mutare = PionAlb;
 							board[y][x] = 0;
+							
+							
+							MarkerPionA(x,y);
+							//MarkerPionA(y,x);
+							// ставим маркер
+										
 						}
 						if (board[y][x] == TurnNEGRU && mutare ==1)
 						{
@@ -1783,6 +1958,13 @@ int main()
 					if (numarPiesaMutata == PionALB && move==1)
 					{
 						 ok = PionA(oldPoz.x, oldPoz.y, x, y);
+						 if (ok)
+						 {
+						 	if ((hyperjampPionNegru.y == oldPoz.y) && (hyperjampPionNegru.x == oldPoz.x-1) && (hyperjampPionNegru.x == x))
+							{
+								board[hyperjampPionNegru.y][hyperjampPionNegru.x] = false;
+							}
+						 }
 					}
 					if (numarPiesaMutata == PionNEGRU && move == 1)
 					{
@@ -1886,6 +2068,7 @@ int main()
 								{
 									board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 									board[y][x] = nr;
+									
 								}
 								else
 								{
@@ -1965,11 +2148,12 @@ int main()
 							}
 						}
 					}
-					else if(ok==0)
+					else if(ok==0)//ход не удался
 					{
 						board[oldPoz.y][oldPoz.x] = numarPiesaMutata;
 					}
                    move = 0;
+                   clearmarker(); //очищаем маркеры когда возвращаем фигуру на поле
 				}
 			}
 		}
@@ -2063,6 +2247,57 @@ int main()
 				}
 			}
 		}
+		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker[i][j]
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				/*if (hyperjampPionNegru.x != -1)
+				{
+					board_marker[hyperjampPionNegru.x][hyperjampPionNegru.y] = 1;
+				}*/
+				if (board_marker[i][j] != 0)
+				{
+					//if (board[i][j] == 0)
+					//{
+						//Marker_green.setColor(sf::Color(255, 255, 255, 128));
+						Marker_green.setPosition(j * size, i * size);
+						
+						window.draw(Marker_green);
+					//}
+				
+				}
+				
+				
+			}
+		}
+		
+		clearmarker_or();
+				if (hyperjampPionNegru.x != -1)
+				{
+					board_marker_or[hyperjampPionNegru.y][hyperjampPionNegru.x] = 1;
+				}
+		
+		for (int i = 0; i < LUNGIME; i++)// расставляем точки согласно board_marker_or[i][j]
+		{
+			for (int j = 0; j < LUNGIME; j++)
+			{
+				
+				if (board_marker_or[i][j] != 0)
+				{
+					//if (board[i][j] == 0)
+					//{
+						//Marker_green.setColor(sf::Color(255, 255, 255, 128));
+						Marker_orange.setPosition(j * size, i * size);
+						
+						window.draw(Marker_orange);
+					//}
+				
+				}
+				
+				
+			}
+		}
+		
 		window.display();
 	}
 		return 0;
