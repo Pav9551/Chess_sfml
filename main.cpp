@@ -18,14 +18,6 @@
 
 using namespace sf;
 
-
-#include <windows.h>
-#include <iostream>
-#include <stdio.h>
-#include <locale>
-
-
-
 struct poz
 {
 	int x, y;
@@ -2088,11 +2080,6 @@ void clearmarker_or()
 
 int main()
 {
-	AllocConsole();  
-    freopen("CONOUT$", "w", stdout); 
-    //SetConsoleOutputCP(1251); //
-    SetConsoleOutputCP(65001); 
-    std::cout << "Привет, мир!" << std::endl;
 	RenderWindow window(VideoMode(900, 800), "Chess made by Silvian Achim");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15;
 	Texture tm1, tm2;
@@ -2713,6 +2700,7 @@ private:
 	}
 		return 0;
 }
+
 
 
 
