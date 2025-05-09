@@ -15,5 +15,9 @@ Add the following commands when calling the linker
 ```
 -lsfml-graphics -lsfml-window -lsfml-system
 ```
+
+## Включите стандарт C++11 или выше:
+## В Dev C++:
+## Tools → Compiler Options → Settings → Code Generation → Language Standard → ISO C++11 (или выше)
 - интересная ссылка https://www.youtube.com/watch?v=yHrrNcDqzk8&t=2s
 
